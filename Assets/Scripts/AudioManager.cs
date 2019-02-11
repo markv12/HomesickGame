@@ -40,7 +40,7 @@ public class AudioManager : MonoBehaviour {
             for (int i = 0; i < notes.Count; i++) {
                 Note note = notes[i];
                 double dspPlayTime = startDSPTime + (note.beat * BeatLength) + PLAY_OFFSET;
-                PlayScheduled(note.clip, dspPlayTime);
+                PlayScheduled(note.clip, dspPlayTime, note.volume);
                 if(note.beat > lastRequestedBeat) {
                     lastRequestedBeat = note.beat;
                 }
@@ -60,9 +60,11 @@ public class AudioManager : MonoBehaviour {
     }
 
     private int currentAudioSource = 0;
-    private void PlayScheduled(AudioClip clip, double time) {
-        sources[currentAudioSource].clip = clip;
-        sources[currentAudioSource].PlayScheduled(time);
+    private void PlayScheduled(AudioClip clip, double time, float volume = 1) {
+        AudioSource current = sources[currentAudioSource];
+        current.clip = clip;
+        current.volume = volume;
+        current.PlayScheduled(time);
         currentAudioSource = (currentAudioSource + 1) % sources.Length;
     }
 }

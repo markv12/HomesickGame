@@ -30,7 +30,8 @@ public class Song : ScriptableObject {
                 if(_beat >= startBeat && _beat <= endBeat) {
                     notes.Add(new Note() {
                         clip = track.clip,
-                        beat = _beat + offset
+                        beat = _beat + offset,
+                        volume = track.volume
                     });
                 }
             }
@@ -41,11 +42,15 @@ public class Song : ScriptableObject {
 public struct Note {
     public AudioClip clip;
     public double beat;
+    public float volume;
 }
 
 [Serializable]
 public class Track {
     public AudioClip clip;
+    [Range(0, 1)]
+    public float volume = 1;
     public double[] beats;
+
 }
 
